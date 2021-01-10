@@ -23,12 +23,12 @@ very very easy:
 extract the python file
 go to cmd
 type:
-python [PUT WHERE NITRO SNIPER IS]  (example: C:\Users\bob\Desktop\nitrosniperphantom.py)
+python [PUT WHERE NITRO SNIPER IS]  (example: C:\Users\bob\Desktop\selfbot.py)
 DONE!
 
 for extra small brain retards:
-cd [put the directory that the python file is in] (example: C:\Users\bob\Desktop\nitrosniperphantom.py)
-EXAMPLE OF COMMAND: cd C:\Users\bob\Desktop\nitrosniperphantom.py
+cd [put the directory that the python file is in] (example: C:\Users\bob\Desktop\selfbot.py)
+EXAMPLE OF COMMAND: cd C:\Users\bob\Desktop\selfbot.py
 
 now do:
-python nitrosniperphantom.py
+python selfbot.py
