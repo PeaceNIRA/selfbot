@@ -1,0 +1,34 @@
+install discord.py try the following:
+py -3 -m pip install -U discord.py
+pip install discord.py
+pip3 install discord.py
+
+
+requirements:
+python3 (mainly 3.6, more will likely work)
+discord.py
+
+more help:
+
+how do i get my discord token? 
+https://www.youtube.com/watch?v=YEgFvgg7ZPI&ab_channel=GaugingGadgets 
+
+
+help me i am nub how 2 get python3?
+https://www.youtube.com/watch?v=dX2-V2BocqQ&ab_channel=ProgrammingKnowledge
+
+
+how to run for retards:
+very very easy:
+extract the python file
+go to cmd
+type:
+python [PUT WHERE NITRO SNIPER IS]  (example: C:\Users\bob\Desktop\nitrosniperphantom.py)
+DONE!
+
+for extra small brain retards:
+cd [put the directory that the python file is in] (example: C:\Users\bob\Desktop\nitrosniperphantom.py)
+EXAMPLE OF COMMAND: cd C:\Users\bob\Desktop\nitrosniperphantom.py
+
+now do:
+python nitrosniperphantom.py
