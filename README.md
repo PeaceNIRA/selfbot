@@ -10,3 +10,5 @@ basic self bot with a tutorial provided, im not responsible for its uses what so
 
 signed by PHANTOM
 
+MY NEW DISCORD TAG: <!peace>#2875
+
