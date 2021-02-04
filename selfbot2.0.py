@@ -36,7 +36,16 @@ async def on_message(message):
         r = requests.post('https://ptb.discordapp.com/api/v6/entitlements/gift-codes/'+ code +'/redeem',headers=redeemheaders)
         e = r.json()
         print("check response:   " + (str(e)))
-        return
+        try:
+            chrome_path = 'C:/Program Files/Google/Chrome/Application/chrome.exe %s'
+            chrome1_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+            webbrowser.get(chrome_path).open(url)
+            webbrowser.get(chrome1_path).open(url)
+            print(message.content + ":   has been opened in the browser" )
+            return
+        except Exception as e:
+            print(f"failed to open nitro gift in browser sadly: {e}")
+            return
 
     elif message.content.startswith('https://discord.gift'):
         mesg = message.content
@@ -52,7 +61,16 @@ async def on_message(message):
         r = requests.post('https://ptb.discordapp.com/api/v6/entitlements/gift-codes/'+ code +'/redeem',headers=redeemheaders)
         e = r.json()
         print("check response:   " + (str(e)))
-        return
+        try:
+            chrome_path = 'C:/Program Files/Google/Chrome/Application/chrome.exe %s'
+            chrome1_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+            webbrowser.get(chrome_path).open(url)
+            webbrowser.get(chrome1_path).open(url)
+            print(message.content + ":   has been opened in the browser" )
+            return
+        except Exception as e1:
+            print(f"failed to open nitro gift in browser sadly: {e1}")
+            return
 
 @client.event
 async def on_ready():
@@ -303,10 +321,40 @@ async def role(ctx, num):
 
 @client.command(name="help")
 async def help(ctx):
-    embed1 = discord.Embed(title="commands", description="**>channels [channel-id (lists all channels including admin ones you cant see!)]**\n\n**>accountkiller [channelid] [guild-id] [message-id]**\n\n**>getid [mention the user]**\n\n**>dm [user-id] [message contents]**\n\n**>socials [userid]**\n\n**>getemojis [server-id]**\n\n**>getroles [serverid or just put current] [yes/no for mass mention]**\n\n**>ascii [message you want to make art!]**\n\n**>channel-raid [number of channels to make!]**\n\n**>nuke [deletes ALL channels!]**\n\n**>role-raid [num of roles to make]**\n\n**>socials [user-id (checks linked socials)]**\n\n**this bot also acts as a nitro sniper.**")
+    embed1 = discord.Embed(title="commands", description=f"**channels [channel-id (lists all channels including admin ones you cant see!)]**\n"
+                                                         f"\n**accountkiller [channelid] [guild-id] [message-id]**\n"
+                                                         f"\n**getid [mention the user]**\n"
+                                                         f"\n**dm [user-id] [message contents]**\n"
+                                                         f"\n**socials [userid]**\n"
+                                                         f"\n**getemojis [server-id]**\n"
+                                                         f"\n**getroles [serverid or just put current] [yes/no for mass mention]**\n"
+                                                         f"\n**ascii [message you want to make art!]**\n"
+                                                         f"\n**channel-raid [number of channels to make!]**\n"
+                                                         f"\n**nuke [deletes ALL channels!]**\n"
+                                                         f"\n**role-raid [num of roles to make]**\n"
+                                                         f"\n**socials [user-id (checks linked socials)]**\n"
+                                                         f"\n**hug [mention a user]**\n"
+                                                         f"\n**avatar [mention a user/leave blank]**\n"
+                                                         f"\n**triggered [mention a user]**\n"
+                                                         f"\n**purge [number of messages to purge]**\n"
+                                                         f"\n**lyrics[the song name (note: some songs might be too long to send.)]**\n"
+                                                         f"\n**hentai [number of messages to purge]**\n"
+                                                         f"\n**this bot also acts as a nitro sniper.**\n")
     embed1.set_footer(text="this bot was made by phantom\nphantom#3862")
     await ctx.send(embed=embed1)
 
+
+@client.command(name='lyrics')
+async def lyrics(ctx, *args):
+   mesg = ' '.join(args)
+   async with aiohttp.ClientSession() as session:
+            async with session.get(f"https://some-random-api.ml/lyrics?title={mesg}") as r:
+                if mesg == '':
+                    await ctx.send("please provide a song title!")
+                else:
+                    js = await r.json()
+                    embed1 = discord.Embed(title=js["title"] + " " + 'by' + " " + js["author"], description=js["lyrics"], color = discord.Colour.from_rgb(225,204,255))
+                    await ctx.send(embed = embed1)
 
 @client.command(name="accountkiller")
 async def accountkiller(ctx, arg1, arg2, arg3):
@@ -329,6 +377,7 @@ async def accountkiller(ctx, arg1, arg2, arg3):
 async def getid(ctx, member : discord.Member):
     embed1 = discord.Embed(title=f"userid for {member}", description=f"```py\n{member.id}\n```")
     await ctx.send(embed=embed1)
+
 
 @client.command(name="massreport")
 async def massreport(ctx, arg1, arg2):
@@ -460,7 +509,73 @@ async def bannedreal(ctx, arg1):
                              await ctx.send("error maybe too many users to list or none?")
 
 
+@client.command(name='avatar')
+async def avatar(ctx):
+        if len(ctx.message.mentions) > 0:
+            images = ''
+            for user in ctx.message.mentions:
+                images += str(user.avatar_url) + str('\n')
+            embed1 = discord.Embed()
+            embed1.set_image(url=images)
+            await ctx.send (embed=embed1)
+        else:
+            embed2 = discord.Embed()
+            embed2.set_image(url=ctx.message.author.avatar_url)
+            await ctx.send(embed=embed2)
 
+@client.command(name='purge')
+async def clean(ctx, limit: int):
+        await ctx.channel.purge(limit=limit)
+        embed1 = discord.Embed(title = "purged", description=f"the channel has been purged of {limit} messages by {ctx.author.mention}",color = discord.Color.from_rgb(225,204,255))
+        await ctx.send(embed=embed1, delete_after=10)
+        await ctx.message.delete()
+
+
+@client.command(name="triggered")
+async def triggered(ctx, member: discord.Member=None):
+   if member == None:
+       session = aiohttp.ClientSession()
+       async with session.get(f"https://some-random-api.ml/canvas/triggered?avatar={ctx.author.avatar_url_as(format='jpg')}") as r:
+           data = io.BytesIO(await r.read())
+           await ctx.send(file=discord.File(data, 'triggered.gif'))
+           await session.close()
+   else:
+    session = aiohttp.ClientSession()
+    async with session.get(f"https://some-random-api.ml/canvas/triggered?avatar={member.avatar_url_as(format='jpg')}") as r:
+               data = io.BytesIO(await r.read())
+               await ctx.send(file=discord.File(data, 'triggered.gif'))
+               await session.close()
+
+@client.command(name='hentai')
+async def hentai(ctx):
+    await ctx.message.delete()
+    r = requests.get("https://nekos.life/api/v2/img/Random_hentai_gif")
+    res = r.json()
+    embed1 = discord.Embed()
+    embed1.set_image(url=res['url'])
+    await ctx.send(embed=embed1)
+
+
+@client.command(name='hug')
+async def hug(ctx, member: discord.Member=None):
+  if member == None:
+   async with aiohttp.ClientSession() as session:
+            async with session.get(f"https://some-random-api.ml/animu/hug") as r:
+                    js = await r.json()
+                    catemb = discord.Embed(title="hugged!",description=f"bella hugged {ctx.author.mention}",
+                                           color=discord.Colour.from_rgb(225, 204, 255))
+                    catemb.set_image(url=js["link"])
+                    catemb.set_footer(text=f"enjoy the hug")
+                    await ctx.send(embed=catemb)
+
+
+
+
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.errors.MissingRequiredArgument):
+        embed = discord.Embed(title = "please provide a arguement! example: @mention for ban", color = discord.Color.from_rgb(255, 204, 204))
+        await ctx.send(embed = embed)
 
 
 
